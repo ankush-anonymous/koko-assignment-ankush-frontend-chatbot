@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es5",
+    "noEmit": false
+  },
+  "include": [
+    "standalone/**/*",
+    "components/ChatbotWidget/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "app",
+    "examples",
+    ".next"
+  ]
+}

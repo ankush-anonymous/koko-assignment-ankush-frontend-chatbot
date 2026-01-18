@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   mode: 'production',
@@ -16,6 +17,7 @@ module.exports = {
         use: {
           loader: 'ts-loader',
           options: {
+            configFile: 'tsconfig.webpack.json',
             compilerOptions: {
               jsx: 'react',
             },
@@ -54,8 +56,19 @@ module.exports = {
       '@': path.resolve(__dirname),
     },
   },
+  // Exclude app directory and examples from compilation
+  externals: {
+    // Don't bundle Next.js specific modules
+  },
   // Don't externalize React - bundle it to make it truly standalone
   optimization: {
     minimize: true,
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NEXT_PUBLIC_BASE_URL': JSON.stringify(process.env.NEXT_PUBLIC_BASE_URL || ''),
+      'process.env.NEXT_PUBLIC_API_ROUTE': JSON.stringify(process.env.NEXT_PUBLIC_API_ROUTE || 'api/v1/chat'),
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
+  ],
 };
