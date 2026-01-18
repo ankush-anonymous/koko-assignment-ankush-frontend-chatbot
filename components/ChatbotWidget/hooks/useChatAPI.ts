@@ -37,7 +37,7 @@ export function useChatAPI(options: UseChatAPIOptions) {
             message: `You said: "${userMessage}". This is a placeholder response. Configure an API endpoint to get real responses.`,
             bookingStatus: null,
             bookingStep: null,
-            availableSlots: null,
+            availableSlots: undefined,
           };
 
           if (onMessageReceived) {
@@ -53,7 +53,7 @@ export function useChatAPI(options: UseChatAPIOptions) {
             onBookingStateUpdate({
               bookingStatus: null,
               bookingStep: null,
-              availableSlots: null,
+              availableSlots: null, // BookingState allows null
               lastActivityTime: Date.now(),
             });
           }
