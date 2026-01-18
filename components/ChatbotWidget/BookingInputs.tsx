@@ -226,7 +226,7 @@ export default function BookingInputs({
           </button>
         </div>
         <p style={hintStyle}>
-          Or type "yes" or "no"
+          Or type &quot;yes&quot; or &quot;no&quot;
         </p>
       </div>
     );
