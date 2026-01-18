@@ -16,7 +16,7 @@ export default function RootLayout({
         
         {/* Option 1: Auto-initialize with data attributes (Simplest) */}
         <Script
-          src="https://your-domain.com/chatbot.js"
+          src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"
           strategy="afterInteractive"
           data-bot-name="Chat Assistant"
           data-position="bottom-right"
@@ -25,7 +25,7 @@ export default function RootLayout({
         {/* Option 2: Initialize manually with JavaScript API */}
         {/* 
         <Script
-          src="https://your-domain.com/chatbot.js"
+          src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"
           strategy="afterInteractive"
           onLoad={() => {
             if (window.ChatbotWidget) {

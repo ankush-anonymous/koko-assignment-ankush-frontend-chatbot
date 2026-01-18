@@ -78,13 +78,26 @@ export default function MessageList({ messages, isMinimized = false, isLoading =
     return null;
   }
 
+  const containerStyle: React.CSSProperties = {
+    flex: 1,
+    overflowY: 'auto',
+    padding: '16px',
+    backgroundColor: '#ffffff',
+    scrollBehavior: 'smooth',
+  };
+
+  const emptyStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    color: '#6b7280',
+  };
+
   return (
-    <div
-      ref={containerRef}
-      className="chatbot-messages-container flex-1 overflow-y-auto px-4 py-4 bg-white"
-    >
+    <div ref={containerRef} style={containerStyle}>
       {messages.length === 0 ? (
-        <div className="flex items-center justify-center h-full text-gray-500">
+        <div style={emptyStyle}>
           <p>Start a conversation...</p>
         </div>
       ) : (

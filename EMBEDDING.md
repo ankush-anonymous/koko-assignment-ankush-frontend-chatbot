@@ -2,6 +2,10 @@
 
 The chatbot widget can be embedded in any website using a simple script tag. It's completely isolated and won't interfere with your website's CSS or JavaScript.
 
+**🚀 Hosted Script URL:** `https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js`
+
+**📖 Live Demo:** [https://koko-assignment-ankush-frontend-cha-lime.vercel.app/](https://koko-assignment-ankush-frontend-cha-lime.vercel.app/)
+
 ## Quick Embed
 
 ### Option 1: Simple Script Tag with Data Attributes (Recommended - Easiest!)
@@ -9,7 +13,7 @@ The chatbot widget can be embedded in any website using a simple script tag. It'
 **For Vanilla HTML:**
 ```html
 <script 
-  src="https://your-domain.com/chatbot.js" 
+  src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js" 
   data-bot-name="Chat Assistant"
   data-position="bottom-right"
 ></script>
@@ -25,7 +29,7 @@ export default function RootLayout({ children }) {
       <body>
         {children}
         <Script
-          src="https://your-domain.com/chatbot.js"
+          src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"
           strategy="afterInteractive"
           data-bot-name="Chat Assistant"
           data-position="bottom-right"
@@ -55,7 +59,7 @@ export default function RootLayout({ children }) {
         
         {/* Embed chatbot widget */}
         <Script
-          src="https://your-domain.com/chatbot.js"
+          src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"
           strategy="afterInteractive"
           onLoad={() => {
             // Initialize after script loads
@@ -76,7 +80,7 @@ export default function RootLayout({ children }) {
 #### For Vanilla HTML or Other Frameworks
 
 ```html
-<script src="https://your-domain.com/chatbot.js"></script>
+<script src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"></script>
 <script>
   // Wait for script to load, then initialize
   window.addEventListener('load', () => {
@@ -100,7 +104,7 @@ export default function RootLayout({ children }) {
     position: 'bottom-right'
   };
 </script>
-<script src="https://your-domain.com/chatbot.js"></script>
+<script src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"></script>
 ```
 
 ## Configuration Options

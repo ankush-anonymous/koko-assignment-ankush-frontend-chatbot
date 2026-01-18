@@ -1,6 +1,7 @@
 /**
  * Individual Message Component
  * Displays user or bot messages with appropriate styling
+ * Uses inline styles for standalone bundle compatibility
  */
 
 import React from 'react';
@@ -13,26 +14,42 @@ interface MessageItemProps {
 export default function MessageItem({ message }: MessageItemProps) {
   const isUser = message.sender === 'user';
 
+  const containerStyle: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: isUser ? 'flex-end' : 'flex-start',
+    marginBottom: '16px',
+    animation: 'fadeIn 0.2s ease-out',
+  };
+
+  const bubbleStyle: React.CSSProperties = {
+    maxWidth: '70%',
+    padding: '8px 16px',
+    borderRadius: '8px',
+    backgroundColor: isUser ? '#000000' : '#e5e7eb',
+  };
+
+  const textStyle: React.CSSProperties = {
+    fontSize: '14px',
+    whiteSpace: 'pre-wrap',
+    wordBreak: 'break-word',
+    color: isUser ? '#ffffff' : '#000000',
+    margin: 0,
+  };
+
+  const timeStyle: React.CSSProperties = {
+    fontSize: '12px',
+    marginTop: '4px',
+    display: 'block',
+    color: isUser ? '#d1d5db' : '#4b5563',
+  };
+
   return (
-    <div
-      className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-4 animate-[fadeIn_0.2s_ease-out]`}
-    >
-      <div
-        className={`
-          max-w-[80%] md:max-w-[70%]
-          px-4 py-2 rounded-lg
-          ${isUser ? 'bg-black' : 'bg-gray-200'}
-        `}
-      >
-        <p className={`text-sm whitespace-pre-wrap break-words ${isUser ? 'text-white' : 'text-black'}`}>
+    <div style={containerStyle}>
+      <div style={bubbleStyle}>
+        <p style={textStyle}>
           {message.text}
         </p>
-        <span
-          className={`
-            text-xs mt-1 block
-            ${isUser ? 'text-gray-300' : 'text-gray-600'}
-          `}
-        >
+        <span style={timeStyle}>
           {new Date(message.timestamp).toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit',

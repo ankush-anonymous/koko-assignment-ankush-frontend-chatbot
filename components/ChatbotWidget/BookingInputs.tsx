@@ -1,6 +1,7 @@
 /**
  * Special Input Components for Booking Flow
  * Date picker, slot selection, and confirmation buttons
+ * Uses inline styles for standalone bundle compatibility
  */
 
 import React, { useState } from 'react';
@@ -11,6 +12,47 @@ interface BookingInputsProps {
   availableSlots: TimeSlot[] | null;
   onSelect: (value: string) => void;
 }
+
+// Common styles
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  padding: '8px 16px',
+  border: '1px solid #d1d5db',
+  borderRadius: '8px',
+  color: '#000000',
+  fontSize: '14px',
+  outline: 'none',
+};
+
+const hintStyle: React.CSSProperties = {
+  fontSize: '12px',
+  color: '#6b7280',
+  marginTop: '4px',
+};
+
+const slotButtonStyle: React.CSSProperties = {
+  width: '100%',
+  padding: '12px 16px',
+  backgroundColor: '#f3f4f6',
+  border: '1px solid #d1d5db',
+  borderRadius: '8px',
+  color: '#000000',
+  textAlign: 'left',
+  cursor: 'pointer',
+  transition: 'background-color 0.2s',
+  fontSize: '14px',
+};
+
+const confirmButtonBaseStyle: React.CSSProperties = {
+  flex: 1,
+  padding: '8px 16px',
+  borderRadius: '8px',
+  border: 'none',
+  cursor: 'pointer',
+  transition: 'background-color 0.2s',
+  fontSize: '14px',
+  fontWeight: 500,
+};
 
 export default function BookingInputs({
   bookingStep,
@@ -50,7 +92,6 @@ export default function BookingInputs({
   // Group slots by date
   const groupSlotsByDate = (slots: TimeSlot[]): Map<string, TimeSlot[]> => {
     const grouped = new Map<string, TimeSlot[]>();
-    let globalIndex = 0;
 
     slots.forEach((slot) => {
       // Use date field if available, otherwise extract from startTime
@@ -96,21 +137,15 @@ export default function BookingInputs({
     const minDate = tomorrow.toISOString().split('T')[0];
 
     return (
-      <div className="mt-2">
+      <div style={{ marginTop: '8px' }}>
         <input
           type="date"
           min={minDate}
           value={selectedDate}
           onChange={handleDateSelect}
-          className="
-            w-full
-            px-4 py-2
-            border border-gray-300 rounded-lg
-            text-black
-            focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent
-          "
+          style={inputStyle}
         />
-        <p className="text-xs text-gray-500 mt-1">
+        <p style={hintStyle}>
           Or type the date in YYYY-MM-DD format (e.g., 2024-12-25)
         </p>
       </div>
@@ -122,32 +157,35 @@ export default function BookingInputs({
     const sortedDates = Array.from(groupedSlots.keys()).sort();
 
     return (
-      <div className="mt-2">
-        <p className="text-sm text-gray-600 mb-2">Select a time slot:</p>
-        <div className="max-h-64 overflow-y-auto pr-2 space-y-4">
+      <div style={{ marginTop: '8px' }}>
+        <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '8px' }}>Select a time slot:</p>
+        <div style={{ maxHeight: '256px', overflowY: 'auto', paddingRight: '8px' }}>
           {sortedDates.map((dateKey) => {
             const slotsForDate = groupedSlots.get(dateKey) || [];
             return (
-              <div key={dateKey} className="space-y-2">
-                <h4 className="text-sm font-semibold text-black mb-2 sticky top-0 bg-white py-1">
+              <div key={dateKey} style={{ marginBottom: '16px' }}>
+                <h4 style={{ 
+                  fontSize: '14px', 
+                  fontWeight: 600, 
+                  color: '#000000', 
+                  marginBottom: '8px',
+                  position: 'sticky',
+                  top: 0,
+                  backgroundColor: '#ffffff',
+                  padding: '4px 0',
+                }}>
                   {formatDate(dateKey)}
                 </h4>
-                <div className="space-y-2">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {slotsForDate.map((slot) => {
                     const slotIndex = availableSlots.findIndex((s) => s.id === slot.id);
                     return (
                       <button
                         key={slot.id}
                         onClick={() => handleSlotSelect(slot.id, availableSlots)}
-                        className="
-                          w-full
-                          px-4 py-3
-                          bg-gray-100 hover:bg-gray-200
-                          border border-gray-300 rounded-lg
-                          text-black text-left
-                          transition-colors
-                          focus:outline-none focus:ring-2 focus:ring-gray-500
-                        "
+                        style={slotButtonStyle}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#e5e7eb'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
                       >
                         {slotIndex !== -1 && `${slotIndex + 1}. `}
                         {formatTimeSlot(slot)}
@@ -159,7 +197,7 @@ export default function BookingInputs({
             );
           })}
         </div>
-        <p className="text-xs text-gray-500 mt-2">
+        <p style={hintStyle}>
           Or type the slot number (1, 2, 3, etc.)
         </p>
       </div>
@@ -168,39 +206,27 @@ export default function BookingInputs({
 
   if (bookingStep === 'CONFIRM_SLOT') {
     return (
-      <div className="mt-2">
-        <div className="flex gap-2 mb-2">
+      <div style={{ marginTop: '8px' }}>
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
           <button
             onClick={() => handleConfirmation('yes')}
-            className="
-              flex-1
-              px-4 py-2
-              bg-black hover:bg-gray-800
-              text-white
-              rounded-lg
-              transition-colors
-              focus:outline-none focus:ring-2 focus:ring-gray-500
-            "
+            style={{ ...confirmButtonBaseStyle, backgroundColor: '#000000', color: '#ffffff' }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#333333'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#000000'}
           >
             Yes
           </button>
           <button
             onClick={() => handleConfirmation('no')}
-            className="
-              flex-1
-              px-4 py-2
-              bg-gray-200 hover:bg-gray-300
-              text-black
-              rounded-lg
-              transition-colors
-              focus:outline-none focus:ring-2 focus:ring-gray-500
-            "
+            style={{ ...confirmButtonBaseStyle, backgroundColor: '#e5e7eb', color: '#000000' }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#d1d5db'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#e5e7eb'}
           >
             No
           </button>
         </div>
-        <p className="text-xs text-gray-500">
-          Or type &quot;yes&quot; or &quot;no&quot;
+        <p style={hintStyle}>
+          Or type "yes" or "no"
         </p>
       </div>
     );
@@ -210,7 +236,7 @@ export default function BookingInputs({
   // Show input hints if needed
   if (bookingStep === 'ASK_EMAIL') {
     return (
-      <p className="text-xs text-gray-500 mt-1">
+      <p style={{ ...hintStyle, marginTop: '4px' }}>
         Enter your email address
       </p>
     );
@@ -218,7 +244,7 @@ export default function BookingInputs({
 
   if (bookingStep === 'ASK_PHONE') {
     return (
-      <p className="text-xs text-gray-500 mt-1">
+      <p style={{ ...hintStyle, marginTop: '4px' }}>
         Enter your phone number
       </p>
     );

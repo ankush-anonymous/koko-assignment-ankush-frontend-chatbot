@@ -24,16 +24,25 @@
   </div>
 
   <!-- Embed the chatbot widget -->
-  <!-- Option 1: Simple script tag with data attributes -->
+  <!-- Option 1: Simple script tag with data attributes (using hosted version) -->
+  <script 
+    src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js" 
+    data-bot-name="Chat Assistant"
+    data-position="bottom-right"
+  ></script>
+
+  <!-- Option 2: Using local version (for development) -->
+  <!--
   <script 
     src="./chatbot.js" 
     data-bot-name="Chat Assistant"
     data-position="bottom-right"
   ></script>
+  -->
 
-  <!-- Option 2: Using JavaScript API -->
+  <!-- Option 3: Using JavaScript API -->
   <!--
-  <script src="./chatbot.js"></script>
+  <script src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"></script>
   <script>
     // Configure before script loads
     window.ChatbotWidgetConfig = {

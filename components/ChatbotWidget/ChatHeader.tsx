@@ -1,6 +1,7 @@
 /**
  * Chat Header Component
  * Contains bot name and control buttons (minimize/close)
+ * Uses inline styles for standalone bundle compatibility
  */
 
 import React from 'react';
@@ -13,6 +14,42 @@ interface ChatHeaderProps {
   isMinimized?: boolean;
 }
 
+const headerStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: '16px',
+  borderBottom: '1px solid #d1d5db',
+  backgroundColor: '#ffffff',
+  borderTopLeftRadius: '12px',
+  borderTopRightRadius: '12px',
+};
+
+const avatarStyle: React.CSSProperties = {
+  width: '32px',
+  height: '32px',
+  backgroundColor: '#000000',
+  borderRadius: '50%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const buttonStyle: React.CSSProperties = {
+  padding: '4px',
+  borderRadius: '4px',
+  border: 'none',
+  backgroundColor: 'transparent',
+  cursor: 'pointer',
+  transition: 'background-color 0.2s',
+};
+
+const iconStyle: React.CSSProperties = {
+  width: '20px',
+  height: '20px',
+  color: '#000000',
+};
+
 export default function ChatHeader({
   botName = 'Chat Assistant',
   onMinimize,
@@ -21,25 +58,27 @@ export default function ChatHeader({
   isMinimized = false,
 }: ChatHeaderProps) {
   return (
-    <div className="flex items-center justify-between p-4 border-b border-gray-300 bg-white rounded-t-lg">
-      <div className="flex items-center gap-2">
-        <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
-          <span className="text-white text-sm font-semibold">
+    <div style={headerStyle}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={avatarStyle}>
+          <span style={{ color: '#ffffff', fontSize: '14px', fontWeight: 600 }}>
             {botName.charAt(0).toUpperCase()}
           </span>
         </div>
-        <h3 className="font-semibold text-black">{botName}</h3>
+        <h3 style={{ fontWeight: 600, color: '#000000', margin: 0, fontSize: '16px' }}>{botName}</h3>
       </div>
-      <div className="flex items-center gap-2">
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         {isMinimized ? (
           <button
             onClick={onMaximize}
-            className="p-1 hover:bg-gray-100 rounded transition-colors"
+            style={buttonStyle}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
             aria-label="Maximize chat"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-black"
+              style={iconStyle}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -55,12 +94,14 @@ export default function ChatHeader({
         ) : (
           <button
             onClick={onMinimize}
-            className="p-1 hover:bg-gray-100 rounded transition-colors"
+            style={buttonStyle}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
             aria-label="Minimize chat"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-black"
+              style={iconStyle}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -71,12 +112,14 @@ export default function ChatHeader({
         )}
         <button
           onClick={onClose}
-          className="p-1 hover:bg-gray-100 rounded transition-colors"
+          style={buttonStyle}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
           aria-label="Close chat"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 text-black"
+            style={iconStyle}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

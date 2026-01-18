@@ -1,9 +1,10 @@
 /**
  * Chat Panel Component
  * Main container for chat UI with three states: closed, open, minimized
+ * Uses inline styles for standalone bundle compatibility
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChatState, Message, BookingStep, TimeSlot } from './types';
 import ChatHeader from './ChatHeader';
 import MessageList from './MessageList';
@@ -37,52 +38,59 @@ export default function ChatPanel({
   bookingStep = null,
   availableSlots = null,
 }: ChatPanelProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   if (state === 'closed') {
     return null;
   }
 
   const isMinimized = state === 'minimized';
   
-  // Desktop positioning: align with button
-  // Button is at bottom-6 (24px) with height h-14 (56px), so top is at 80px
-  // Panel should be positioned right above button with small gap (8px = 88px total)
-  // Match button's responsive position: right-4 md:right-6 (button) -> md:right-6 for panel
-  const desktopPositionClasses =
-    position === 'bottom-right' 
-      ? 'md:bottom-[88px] md:right-6' 
-      : 'md:bottom-[88px] md:left-6';
-  
-  // Mobile: full-width bottom sheet
-  // Desktop: anchored to button position, right above it
+  const panelStyle: React.CSSProperties = {
+    position: 'fixed',
+    zIndex: 999998,
+    backgroundColor: '#ffffff',
+    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+    display: 'flex',
+    flexDirection: 'column',
+    transition: 'all 0.3s ease-out',
+    pointerEvents: 'auto',
+    ...(isMobile ? {
+      // Mobile: full-width bottom sheet
+      bottom: 0,
+      left: 0,
+      right: 0,
+      width: '100%',
+      maxHeight: isMinimized ? '60px' : '90vh',
+      height: isMinimized ? '60px' : '90vh',
+      borderTopLeftRadius: '12px',
+      borderTopRightRadius: '12px',
+    } : {
+      // Desktop: anchored panel
+      bottom: '88px',
+      right: position === 'bottom-right' ? '24px' : 'auto',
+      left: position === 'bottom-left' ? '24px' : 'auto',
+      width: '384px',
+      maxHeight: isMinimized ? '60px' : '600px',
+      height: isMinimized ? '60px' : '600px',
+      borderRadius: '12px',
+    }),
+    transform: isMinimized ? 'translateY(calc(100% - 60px))' : 'translateY(0)',
+    opacity: 1,
+    overflow: 'hidden',
+  };
+
   return (
-    <div
-      className={`
-        chatbot-widget-container
-        fixed
-        bottom-0 left-0 right-0
-        md:left-auto
-        ${desktopPositionClasses}
-        z-[999998]
-        w-full
-        md:w-96
-        max-h-[90vh]
-        md:max-h-[600px]
-        bg-white
-        rounded-t-lg
-        md:rounded-lg
-        shadow-2xl
-        flex flex-col
-        transition-all duration-300 ease-out
-        ${isMinimized ? 'chatbot-panel-minimized max-h-[60px]' : 'h-[90vh] md:h-[600px]'}
-      `}
-      style={{
-        transform: 
-          state === 'minimized' 
-            ? 'translateY(calc(100% - 60px))' 
-            : 'translateY(0)',
-        opacity: 1,
-      }}
-    >
+    <div style={panelStyle}>
       <ChatHeader
         botName={botName}
         onMinimize={onMinimize}

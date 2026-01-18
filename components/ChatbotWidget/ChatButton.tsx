@@ -1,6 +1,7 @@
 /**
  * Floating Chat Button Component
  * Default state: visible button at bottom-right
+ * Uses inline styles for standalone bundle compatibility
  */
 
 import React from 'react';
@@ -11,35 +12,45 @@ interface ChatButtonProps {
 }
 
 export default function ChatButton({ onClick, position = 'bottom-right' }: ChatButtonProps) {
-  const positionClasses =
-    position === 'bottom-right' 
-      ? 'bottom-6 right-4 md:right-6' 
-      : 'bottom-6 left-4 md:left-6';
+  const buttonStyle: React.CSSProperties = {
+    position: 'fixed',
+    bottom: '24px',
+    right: position === 'bottom-right' ? '24px' : 'auto',
+    left: position === 'bottom-left' ? '24px' : 'auto',
+    zIndex: 999999,
+    width: '56px',
+    height: '56px',
+    backgroundColor: '#000000',
+    color: '#ffffff',
+    borderRadius: '50%',
+    border: 'none',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    outline: 'none',
+    pointerEvents: 'auto',
+  };
 
   return (
     <button
       onClick={onClick}
-      className={`
-        ${positionClasses}
-        fixed
-        z-[999999]
-        w-14 h-14
-        md:w-14 md:h-14
-        bg-black hover:bg-gray-800
-        text-white
-        rounded-full
-        shadow-lg
-        flex items-center justify-center
-        transition-all duration-300
-        hover:scale-110
-        active:scale-95
-        focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2
-      `}
+      style={buttonStyle}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.backgroundColor = '#333333';
+        e.currentTarget.style.transform = 'scale(1.1)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.backgroundColor = '#000000';
+        e.currentTarget.style.transform = 'scale(1)';
+      }}
       aria-label="Open chat"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="h-6 w-6"
+        style={{ width: '24px', height: '24px' }}
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"

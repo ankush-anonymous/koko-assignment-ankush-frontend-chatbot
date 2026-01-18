@@ -1,6 +1,10 @@
 # Chatbot Widget - Floating Chat Button
 
-A fully-featured, embeddable chatbot widget with a floating button interface. The widget can be easily integrated into any Next.js application.
+A fully-featured, embeddable chatbot widget with a floating button interface. The widget can be easily integrated into **any website** - Next.js, React, Vue, vanilla HTML, or any other framework.
+
+**🚀 Live Demo:** [https://koko-assignment-ankush-frontend-cha-lime.vercel.app/](https://koko-assignment-ankush-frontend-cha-lime.vercel.app/)
+
+**📦 Embeddable Script:** [https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js](https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js)
 
 ## Features
 
@@ -15,7 +19,56 @@ A fully-featured, embeddable chatbot widget with a floating button interface. Th
 - **Session Management**: Automatic session ID generation and management
 - **Typing Indicator**: Animated dots while waiting for bot response
 
-## Quick Start
+## 🚀 Quick Start - Embed in Your Website (30 seconds!)
+
+### For Any Website (HTML, React, Vue, Next.js, etc.)
+
+Simply add this script tag to your HTML:
+
+```html
+<script 
+  src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js" 
+  data-bot-name="Chat Assistant"
+  data-position="bottom-right"
+></script>
+```
+
+**That's it!** The floating chat button will appear in the bottom-right corner of your website.
+
+### For Next.js Projects
+
+Add to your `app/layout.tsx` or `pages/_app.tsx`:
+
+```tsx
+import Script from 'next/script';
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <Script
+          src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"
+          strategy="afterInteractive"
+          data-bot-name="Chat Assistant"
+          data-position="bottom-right"
+        />
+      </body>
+    </html>
+  );
+}
+```
+
+### Configuration Options
+
+- `data-bot-name` - Name of the chatbot (default: "Chat Assistant")
+- `data-position` - Position: `"bottom-right"` or `"bottom-left"` (default: "bottom-right")
+
+**Note:** The API endpoint is pre-configured and points to the hosted backend. No additional setup needed!
+
+---
+
+## 🛠️ Development Setup (For Contributors)
 
 ### 1. Install Dependencies
 
@@ -32,7 +85,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 NEXT_PUBLIC_API_ROUTE=api/v1/chat
 ```
 
-### 3. Use the Widget
+### 3. Use the Widget in Next.js
 
 Simply import and add the widget to any page:
 
@@ -130,9 +183,9 @@ POST /api/v1/chat
 - When widget is closed, session is cleared and a new one is created on next open
 - Session is sent to backend `/api/v1/chat/close` endpoint when widget closes
 
-## Building the Standalone Embeddable Script
+## 🔧 Building the Standalone Embeddable Script
 
-To create the embeddable `chatbot.js` file that can be included in any website:
+To build your own version of the embeddable `chatbot.js` file:
 
 ```bash
 # Install build dependencies (if not already installed)
@@ -144,24 +197,46 @@ npm run build:standalone
 
 This will create `public/chatbot.js` which can be hosted and embedded in any website.
 
-## Embedding in Any Website
+**Note:** The hosted version is already available at: `https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js`
 
-### Simple Embed (Recommended)
+## 📖 Complete Embedding Guide
 
+### Option 1: Simple Script Tag (Recommended - Easiest!)
+
+**For Vanilla HTML:**
 ```html
 <script 
-  src="https://your-domain.com/chatbot.js" 
+  src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js" 
   data-bot-name="Chat Assistant"
   data-position="bottom-right"
 ></script>
 ```
 
-**Note:** API endpoint is configured via environment variables when building the script.
+**For Next.js (in `layout.tsx`):**
+```tsx
+import Script from 'next/script';
 
-### JavaScript API
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <Script
+          src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"
+          strategy="afterInteractive"
+          data-bot-name="Chat Assistant"
+          data-position="bottom-right"
+        />
+      </body>
+    </html>
+  );
+}
+```
+
+### Option 2: JavaScript API
 
 ```html
-<script src="https://your-domain.com/chatbot.js"></script>
+<script src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"></script>
 <script>
   window.ChatbotWidget.init({
     botName: 'Chat Assistant',
@@ -170,7 +245,19 @@ This will create `public/chatbot.js` which can be hosted and embedded in any web
 </script>
 ```
 
-See `EMBEDDING.md` for complete embedding documentation.
+### Option 3: Configure Before Script Loads
+
+```html
+<script>
+  window.ChatbotWidgetConfig = {
+    botName: 'Chat Assistant',
+    position: 'bottom-right'
+  };
+</script>
+<script src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"></script>
+```
+
+**See `EMBEDDING.md` for complete embedding documentation with all options.**
 
 ## CSS Isolation
 

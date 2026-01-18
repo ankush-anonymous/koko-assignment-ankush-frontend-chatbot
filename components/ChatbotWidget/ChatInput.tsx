@@ -58,9 +58,55 @@ export default function ChatInput({
     }
   };
 
+  const containerStyle: React.CSSProperties = {
+    padding: '16px',
+    borderTop: '1px solid #d1d5db',
+    backgroundColor: '#ffffff',
+    borderBottomLeftRadius: '12px',
+    borderBottomRightRadius: '12px',
+  };
+
+  const inputRowStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'flex-end',
+    gap: '8px',
+  };
+
+  const textareaStyle: React.CSSProperties = {
+    flex: 1,
+    padding: '8px 16px',
+    border: '1px solid #d1d5db',
+    borderRadius: '8px',
+    color: '#000000',
+    fontSize: '14px',
+    resize: 'none',
+    maxHeight: '128px',
+    overflowY: 'auto',
+    outline: 'none',
+    backgroundColor: disabled ? '#f3f4f6' : '#ffffff',
+    cursor: disabled ? 'not-allowed' : 'text',
+  };
+
+  const buttonStyle: React.CSSProperties = {
+    padding: '8px',
+    backgroundColor: disabled || !inputValue.trim() ? '#d1d5db' : '#000000',
+    color: '#ffffff',
+    borderRadius: '8px',
+    border: 'none',
+    cursor: disabled || !inputValue.trim() ? 'not-allowed' : 'pointer',
+    transition: 'background-color 0.2s',
+    outline: 'none',
+  };
+
+  const hintStyle: React.CSSProperties = {
+    fontSize: '12px',
+    color: '#6b7280',
+    marginTop: '8px',
+  };
+
   return (
-    <div className="p-4 border-t border-gray-300 bg-white rounded-b-lg">
-      <div className="flex items-end gap-2">
+    <div style={containerStyle}>
+      <div style={inputRowStyle}>
         <textarea
           ref={textareaRef}
           value={inputValue}
@@ -69,36 +115,27 @@ export default function ChatInput({
           placeholder={placeholder}
           disabled={disabled}
           rows={1}
-          className="
-            flex-1
-            px-4 py-2
-            border border-gray-300 rounded-lg
-            text-black
-            placeholder-gray-400
-            focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent
-            resize-none
-            max-h-32
-            overflow-y-auto
-            disabled:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-500
-          "
+          style={textareaStyle}
         />
         <button
           onClick={handleSend}
           disabled={disabled || !inputValue.trim()}
-          className="
-            p-2
-            bg-black hover:bg-gray-800
-            text-white
-            rounded-lg
-            transition-colors
-            disabled:bg-gray-300 disabled:cursor-not-allowed
-            focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2
-          "
+          style={buttonStyle}
+          onMouseEnter={(e) => {
+            if (!disabled && inputValue.trim()) {
+              e.currentTarget.style.backgroundColor = '#333333';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (!disabled && inputValue.trim()) {
+              e.currentTarget.style.backgroundColor = '#000000';
+            }
+          }}
           aria-label="Send message"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
+            style={{ width: '20px', height: '20px' }}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -120,7 +157,7 @@ export default function ChatInput({
         />
       )}
       {!bookingStep && (
-        <p className="text-xs text-gray-500 mt-2">
+        <p style={hintStyle}>
           Press Enter to send, Shift+Enter for newline
         </p>
       )}
