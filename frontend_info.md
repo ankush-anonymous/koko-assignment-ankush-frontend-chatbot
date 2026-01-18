@@ -507,4 +507,4 @@ The frontend should:
 6. Provide appropriate input components for each booking step
 7. Maintain chat history and state synchronization
 
-The backend handles all business logic, validation, and state management. The frontend's role is to provide a smooth user interface and communicate with the backend API.
+The backend handles all business logic, validation, and state management. The frontend's role is to provide a smooth user interface and communicate with the backend API
