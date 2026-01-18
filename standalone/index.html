@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot Widget Embed Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+    }
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <h1>Example Website</h1>
+    <p>This is a regular website. The chatbot widget is embedded below and will appear in the bottom-right corner.</p>
+    <p>The widget is completely isolated and won't interfere with this page's styles.</p>
+  </div>
+
+  <!-- Embed the chatbot widget -->
+  <!-- Option 1: Simple script tag with data attributes -->
+  <script 
+    src="./chatbot.js" 
+    data-bot-name="Chat Assistant"
+    data-position="bottom-right"
+  ></script>
+
+  <!-- Option 2: Using JavaScript API -->
+  <!--
+  <script src="./chatbot.js"></script>
+  <script>
+    // Configure before script loads
+    window.ChatbotWidgetConfig = {
+      botName: 'Chat Assistant',
+      position: 'bottom-right'
+    };
+    
+    // Or initialize after script loads
+    window.ChatbotWidget.init({
+      botName: 'Chat Assistant',
+      position: 'bottom-right'
+    });
+  </script>
+  -->
+</body>
+</html>

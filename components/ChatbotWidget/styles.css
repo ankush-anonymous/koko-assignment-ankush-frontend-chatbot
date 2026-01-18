@@ -1,0 +1,74 @@
+/**
+ * Chatbot Widget Styles
+ * Custom CSS for animations and complex styling
+ */
+
+/* Chat Panel Animations */
+.chatbot-panel-enter {
+  opacity: 0;
+  transform: scale(0.95) translateY(10px);
+}
+
+.chatbot-panel-enter-active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+.chatbot-panel-exit {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.chatbot-panel-exit-active {
+  opacity: 0;
+  transform: scale(0.95) translateY(10px);
+  transition: opacity 200ms ease-in, transform 200ms ease-in;
+}
+
+/* Minimized state */
+.chatbot-panel-minimized {
+  height: 60px;
+  overflow: hidden;
+}
+
+/* Mobile bottom sheet animation */
+@media (max-width: 768px) {
+  .chatbot-panel-enter {
+    transform: translateY(100%);
+  }
+
+  .chatbot-panel-enter-active {
+    transform: translateY(0);
+  }
+
+  .chatbot-panel-exit {
+    transform: translateY(0);
+  }
+
+  .chatbot-panel-exit-active {
+    transform: translateY(100%);
+  }
+}
+
+/* Message fade-in animation */
+.message-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.message-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+}
+
+/* Smooth scroll behavior */
+.chatbot-messages-container {
+  scroll-behavior: smooth;
+}
+
+/* Prevent layout shift */
+.chatbot-widget-container {
+  contain: layout style paint;
+}
