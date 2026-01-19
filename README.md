@@ -1,174 +1,129 @@
-# Chatbot Widget - Floating Chat Button
+# Chatbot Widget — Plug & Play
 
-A fully-featured, embeddable chatbot widget with a floating button interface. The widget can be easily integrated into **any website** - Next.js, React, Vue, vanilla HTML, or any other framework.
+## Project Demo Video
 
-**🚀 Live Demo:** [https://koko-assignment-ankush-frontend-cha-lime.vercel.app/](https://koko-assignment-ankush-frontend-cha-lime.vercel.app/)
+[Watch the walkthrough](https://drive.google.com/file/d/1FHyYe7XCdWkgvbNO6MqVUKK8c168-ukp/view?usp=sharing)
 
-**📦 Embeddable Script:** [https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js](https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js)
+An embeddable floating chatbot button you can drop into **any website** in seconds.
 
-## Features
+**Live Demo:** https://koko-assignment-ankush-frontend-cha-lime.vercel.app/  
+**Hosted Script:** https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js
+**Backend Repo:** https://github.com/ankush-anonymous/koko-assignment-backend-ankush.git
 
-- **Floating Button**: Always-visible chat button at bottom-right (or bottom-left)
-- **Three States**: Closed → Open → Minimized
-- **Smooth Animations**: CSS transitions without layout shift
-- **Message Persistence**: Messages saved to localStorage
-- **Auto-scroll**: Automatically scrolls to latest messages
-- **Keyboard Shortcuts**: Enter to send, Shift+Enter for newline
-- **Mobile Responsive**: Full-height bottom sheet on mobile, anchored drawer on desktop
-- **Booking Flow**: Special UI components for date picker, slot selection, and confirmations
-- **Session Management**: Automatic session ID generation and management
-- **Typing Indicator**: Animated dots while waiting for bot response
+---
 
-## 🚀 Quick Start - Embed in Your Website (30 seconds!)
+## 1) Plug & Play (copy‑paste)
 
-### For Any Website (HTML, React, Vue, Next.js, etc.)
-
-Simply add this script tag to your HTML:
+### ✅ Any website (HTML, React, Vue, etc.)
+Paste this **one script tag**:
 
 ```html
-<script 
-  src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js" 
+<script
+  src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"
   data-bot-name="Chat Assistant"
   data-position="bottom-right"
 ></script>
 ```
 
-**That's it!** The floating chat button will appear in the bottom-right corner of your website.
+That’s it — the floating chat button appears automatically.
 
-### For Next.js Projects
+---
 
-Add to your `app/layout.tsx` or `pages/_app.tsx`:
+## 2) Next.js (App Router)
+
+If your `layout.tsx` is a Server Component, use a small Client Component:
 
 ```tsx
-import Script from 'next/script';
+"use client";
 
-export default function RootLayout({ children }) {
+import Script from "next/script";
+
+export default function ChatbotScript() {
   return (
-    <html>
+    <Script
+      src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"
+      strategy="afterInteractive"
+      data-bot-name="Chat Assistant"
+      data-position="bottom-right"
+    />
+  );
+}
+```
+
+Then mount it once in `layout.tsx`:
+
+```tsx
+import ChatbotScript from "@/components/chatbot-script";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
       <body>
         {children}
-        <Script
-          src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"
-          strategy="afterInteractive"
-          data-bot-name="Chat Assistant"
-          data-position="bottom-right"
-        />
+        <ChatbotScript />
       </body>
     </html>
   );
 }
 ```
 
-### Configuration Options
+---
 
-- `data-bot-name` - Name of the chatbot (default: "Chat Assistant")
-- `data-position` - Position: `"bottom-right"` or `"bottom-left"` (default: "bottom-right")
+## 3) Configuration (only two options)
 
-**Note:** The API endpoint is pre-configured and points to the hosted backend. No additional setup needed!
+```html
+data-bot-name="Chat Assistant"
+data-position="bottom-right"  <!-- or bottom-left -->
+```
+
+No other runtime config is supported.
 
 ---
 
-## 🛠️ Development Setup (For Contributors)
+## 4) JavaScript API (optional)
 
-### 1. Install Dependencies
-
-```bash
-npm install
+```html
+<script src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"></script>
+<script>
+  window.ChatbotWidget.init({
+    botName: "Chat Assistant",
+    position: "bottom-right"
+  });
+</script>
 ```
 
-### 2. Configure Environment Variables
-
-Create a `.env.local` file:
-
-```env
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
-NEXT_PUBLIC_API_ROUTE=api/v1/chat
+Destroy:
+```js
+window.ChatbotWidget.destroy();
 ```
 
-### 3. Use the Widget in Next.js
+---
 
-Simply import and add the widget to any page:
+## 5) How the API works (built‑in)
 
-```tsx
-import ChatbotWidget from '@/components/ChatbotWidget';
-
-export default function YourPage() {
-  return (
-    <>
-      {/* Your page content */}
-      
-      {/* Embed the chatbot widget */}
-      <ChatbotWidget 
-        botName="Your Assistant"
-        position="bottom-right"
-      />
-    </>
-  );
-}
+The widget sends every message to:
 ```
-
-## Widget Props
-
-```typescript
-interface ChatbotWidgetProps {
-  botName?: string;            // Bot name (default: "Chat Assistant")
-  initialMessages?: Message[]; // Initial messages (optional)
-  theme?: 'light' | 'dark';   // Theme (default: 'light')
-  position?: 'bottom-right' | 'bottom-left'; // Button position (default: "bottom-right")
-  storageKey?: string;        // localStorage key for messages
-}
-```
-
-**Note:** API endpoint is configured via environment variables (`NEXT_PUBLIC_BASE_URL` and `NEXT_PUBLIC_API_ROUTE`) and cannot be overridden via props.
-
-## Component Structure
-
-```
-components/ChatbotWidget/
-  ├── index.tsx              # Main widget component
-  ├── ChatButton.tsx         # Floating button
-  ├── ChatPanel.tsx          # Chat panel container
-  ├── ChatHeader.tsx         # Header with controls
-  ├── MessageList.tsx        # Scrollable message area
-  ├── MessageItem.tsx        # Individual message
-  ├── ChatInput.tsx          # Input with keyboard shortcuts
-  ├── BookingInputs.tsx      # Special booking inputs
-  ├── TypingIndicator.tsx    # Typing animation
-  ├── hooks/                 # Custom hooks
-  │   ├── useChatState.ts
-  │   ├── useChatAPI.ts
-  │   ├── useSession.ts
-  │   ├── useBookingState.ts
-  │   ├── useAutoScroll.ts
-  │   └── useKeyboardShortcuts.ts
-  ├── types.ts               # TypeScript types
-  └── styles.css             # Custom styles
-```
-
-## API Integration
-
-The widget expects the backend API to follow this format:
-
-**Request:**
-```json
 POST /api/v1/chat
+```
+
+Request:
+```json
 {
   "sessionId": "string",
   "userMessage": "string"
 }
 ```
 
-**Response:**
+Response:
 ```json
 {
   "success": true,
   "message": "string",
   "bookingStatus": "initiated" | "pending" | "completed" | null,
-  "bookingStep": "ASK_EMAIL" | "ASK_OWNER_NAME" | ... | null,
+  "bookingStep": "ASK_EMAIL" | "ASK_OWNER_NAME" | "ASK_PET_NAME" | "ASK_PHONE" | "ASK_DATE" | "SHOW_SLOTS" | "CONFIRM_SLOT" | null,
   "availableSlots": [
     {
       "id": "string",
-      "date": "YYYY-MM-DD",
       "startTime": "ISO 8601",
       "endTime": "ISO 8601"
     }
@@ -176,119 +131,63 @@ POST /api/v1/chat
 }
 ```
 
-## Session Management
+---
 
-- Session ID is automatically generated and stored in localStorage
-- Session persists across page reloads
-- When widget is closed, session is cleared and a new one is created on next open
-- Session is sent to backend `/api/v1/chat/close` endpoint when widget closes
+## 6) Booking flow (UI auto‑handled)
 
-## 🔧 Building the Standalone Embeddable Script
+When `bookingStep` changes, the widget automatically shows the right UI:
 
-To build your own version of the embeddable `chatbot.js` file:
+- `ASK_EMAIL` → text input
+- `ASK_DATE` → date picker
+- `SHOW_SLOTS` → clickable slots
+- `CONFIRM_SLOT` → Yes/No buttons
+
+No host‑side work required.
+
+---
+
+## 7) Session behavior
+
+- Session ID is generated on first open and stored in localStorage
+- Reused across reloads and tabs
+- Cleared when widget closes (`/api/v1/chat/close`)
+
+---
+
+## 8) CSS Isolation (safe for any site)
+
+- Styles are scoped to `#vet-chatbot-widget-container`
+- No global Tailwind reset
+- High `z-index` (999999)
+- Won’t affect your site CSS
+
+---
+
+## 9) Building your own `chatbot.js` (optional)
 
 ```bash
-# Install build dependencies (if not already installed)
 npm install
-
-# Build the standalone script
 npm run build:standalone
 ```
 
-This will create `public/chatbot.js` which can be hosted and embedded in any website.
+Output: `public/chatbot.js`
 
-**Note:** The hosted version is already available at: `https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js`
-
-## 📖 Complete Embedding Guide
-
-### Option 1: Simple Script Tag (Recommended - Easiest!)
-
-**For Vanilla HTML:**
-```html
-<script 
-  src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js" 
-  data-bot-name="Chat Assistant"
-  data-position="bottom-right"
-></script>
+### Environment variables (build time only)
+```
+NEXT_PUBLIC_BASE_URL=<backend base URL>
+NEXT_PUBLIC_API_ROUTE=api/v1/chat
 ```
 
-**For Next.js (in `layout.tsx`):**
-```tsx
-import Script from 'next/script';
+---
 
-export default function RootLayout({ children }) {
-  return (
-    <html>
-      <body>
-        {children}
-        <Script
-          src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"
-          strategy="afterInteractive"
-          data-bot-name="Chat Assistant"
-          data-position="bottom-right"
-        />
-      </body>
-    </html>
-  );
-}
-```
+## 10) Feature highlights
 
-### Option 2: JavaScript API
+- Floating button + panel
+- Open / minimized / closed states
+- Smooth animations
+- Mobile full‑height sheet
+- Auto‑scroll and typing indicator
+- Booking flow UI (date, slots, confirm)
+- Session persistence and timeout handling
 
-```html
-<script src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"></script>
-<script>
-  window.ChatbotWidget.init({
-    botName: 'Chat Assistant',
-    position: 'bottom-right'
-  });
-</script>
-```
 
-### Option 3: Configure Before Script Loads
-
-```html
-<script>
-  window.ChatbotWidgetConfig = {
-    botName: 'Chat Assistant',
-    position: 'bottom-right'
-  };
-</script>
-<script src="https://koko-assignment-ankush-frontend-cha-lime.vercel.app/chatbot.js"></script>
-```
-
-**See `EMBEDDING.md` for complete embedding documentation with all options.**
-
-## CSS Isolation
-
-The widget is completely isolated and won't interfere with your website:
-- Uses unique container ID: `#vet-chatbot-widget-container`
-- All Tailwind classes are scoped with `important` selector
-- Uses `z-index: 999999` to appear above all content
-- Preflight styles disabled to prevent conflicts
-- Widget styles are self-contained
-
-## Development
-
-```bash
-# Run development server (for Next.js app)
-npm run dev
-
-# Build Next.js app for production
-npm run build
-
-# Build standalone embeddable script
-npm run build:standalone
-
-# Start production server
-npm start
-```
-
-## Notes
-
-- The widget is a client component (`'use client'`)
-- All state is managed internally
-- Messages and booking state persist in localStorage
-- The widget handles all API communication automatically
-- The standalone script bundles React and ReactDOM for true isolation
-- The widget works in any framework or vanilla HTML
